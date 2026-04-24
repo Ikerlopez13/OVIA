@@ -24,7 +24,7 @@ const Hero: React.FC<Props> = ({ onExplore }) => {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundImage: 'url(/hero-bg.png)',
+        backgroundImage: 'url(/Users/ikerlopezalegre/.gemini/antigravity/brain/93bd3d7a-77f9-4130-8ada-e2d5d046c170/ovia_hero_bg_1777021832398.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         zIndex: 1

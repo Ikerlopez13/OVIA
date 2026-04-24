@@ -5,12 +5,14 @@ import { motion } from 'framer-motion';
 
 interface Props {
   place: Place;
+  onSelect: (place: Place) => void;
 }
 
-const PlaceCard: React.FC<Props> = ({ place }) => {
+const PlaceCard: React.FC<Props> = ({ place, onSelect }) => {
   return (
     <motion.div 
       whileHover={{ scale: 1.02 }}
+      onClick={() => onSelect(place)}
       className={`bento-item ${place.size === 'large' ? 'large' : ''}`}
       style={{
         cursor: 'pointer',

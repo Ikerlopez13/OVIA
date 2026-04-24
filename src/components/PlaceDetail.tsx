@@ -148,6 +148,25 @@ const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
               <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
                 {place.address}
               </p>
+              
+              <div style={{ 
+                width: '100%', 
+                height: '250px', 
+                borderRadius: 'var(--radius-md)', 
+                overflow: 'hidden', 
+                marginBottom: '1.5rem',
+                border: '1px solid var(--glass-border)'
+              }}>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  allowFullScreen
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(place.address)}&output=embed`}
+                ></iframe>
+              </div>
+
               <a 
                 href={place.mapUrl} 
                 target="_blank" 

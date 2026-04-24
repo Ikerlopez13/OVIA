@@ -55,15 +55,7 @@ const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
           <ArrowLeft size={24} />
         </button>
 
-        <div style={{
-          position: 'absolute',
-          bottom: '4rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '90%',
-          maxWidth: '1200px',
-          color: 'white'
-        }}>
+        <div className="detail-hero-content">
           <span style={{ 
             background: 'var(--accent)', 
             padding: '0.4rem 1rem', 
@@ -76,8 +68,8 @@ const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
           }}>
             {place.category}
           </span>
-          <h1 style={{ fontSize: 'clamp(2.5rem, 8vw, 4rem)', marginBottom: '1rem' }}>{place.title}</h1>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', opacity: 0.9 }}>
+          <h1 style={{ fontSize: 'clamp(2rem, 8vw, 4rem)', marginBottom: '1rem', lineHeight: 1.1 }}>{place.title}</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', opacity: 0.9, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <MapPin size={20} />
               <span>{place.location}</span>
@@ -94,13 +86,13 @@ const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
       <div style={{ 
         maxWidth: '1200px', 
         margin: '-2rem auto 0', 
-        padding: '0 1.5rem 4rem',
+        padding: '0 1rem 4rem',
         position: 'relative',
         zIndex: 10
       }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '3rem' }}>
+        <div className="detail-grid">
           {/* Main Info */}
-          <div className="glass-card" style={{ padding: '3rem' }}>
+          <div className="glass-card detail-card-main" style={{ padding: '3rem' }}>
             <section style={{ marginBottom: '3rem' }}>
               <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Sobre este lugar</h2>
               <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
@@ -118,7 +110,7 @@ const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
                     background: 'rgba(0,0,0,0.03)',
                     border: '1px solid var(--glass-border)'
                   }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                         <div style={{ 
                           width: '40px', 
@@ -142,7 +134,7 @@ const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
                         <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>{review.rating}</span>
                       </div>
                     </div>
-                    <p style={{ color: 'var(--text-secondary)', fontStyle: 'italic' }}>"{review.comment}"</p>
+                    <p style={{ color: 'var(--text-secondary)', fontStyle: 'italic', fontSize: '0.95rem' }}>"{review.comment}"</p>
                   </div>
                 ))}
               </div>
@@ -151,7 +143,7 @@ const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
 
           {/* Sidebar / Info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div className="glass-card">
+            <div className="glass-card" style={{ padding: '2rem' }}>
               <h3 style={{ marginBottom: '1.5rem' }}>Ubicación</h3>
               <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
                 {place.address}
@@ -177,7 +169,7 @@ const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
               </a>
             </div>
 
-            <div className="glass-card" style={{ background: 'var(--accent)', color: 'white' }}>
+            <div className="glass-card" style={{ background: 'var(--accent)', color: 'white', padding: '2rem' }}>
               <h3 style={{ marginBottom: '1rem' }}>Compartido por</h3>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <div style={{ 

@@ -1,11 +1,11 @@
-import { Compass, User, PlusCircle, Search } from 'lucide-react';
+import { Compass, User, Info } from 'lucide-react';
 
 interface Props {
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
+  onAboutClick: () => void;
+  onAuthClick: () => void;
 }
 
-const Navbar: React.FC<Props> = ({ searchTerm, setSearchTerm }) => {
+const Navbar: React.FC<Props> = ({ onAboutClick, onAuthClick }) => {
   return (
     <nav className="glass" style={{
       position: 'fixed',
@@ -32,35 +32,7 @@ const Navbar: React.FC<Props> = ({ searchTerm, setSearchTerm }) => {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1, justifyContent: 'flex-end' }}>
-        <div className="glass search-container" style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          padding: '0.5rem 1rem',
-          borderRadius: 'var(--radius-full)',
-          background: 'var(--bg-secondary)',
-          border: 'none',
-          maxWidth: '300px',
-          width: '100%'
-        }}>
-          <Search size={18} color="var(--text-secondary)" />
-          <input 
-            type="text" 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Buscar joyas..." 
-            style={{ 
-              background: 'none', 
-              border: 'none', 
-              outline: 'none',
-              color: 'var(--text-primary)',
-              width: '100%',
-              fontSize: '0.9rem'
-            }}
-          />
-        </div>
-        
-        <button className="glass nav-btn-text" style={{
+        <button className="glass nav-btn-text" onClick={onAboutClick} style={{
           padding: '0.5rem 1.2rem',
           borderRadius: 'var(--radius-full)',
           display: 'flex',
@@ -68,22 +40,26 @@ const Navbar: React.FC<Props> = ({ searchTerm, setSearchTerm }) => {
           gap: '0.5rem',
           color: 'var(--text-primary)',
           fontWeight: 500,
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          cursor: 'pointer'
         }}>
-          <PlusCircle size={20} />
-          <span className="hide-mobile">Compartir</span>
+          <Info size={20} />
+          <span className="hide-mobile">Sobre nosotros</span>
         </button>
 
-        <button style={{
-          padding: '0.5rem',
-          borderRadius: 'var(--radius-full)',
-          background: 'var(--accent)',
-          color: 'white',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0
-        }}>
+        <button 
+          onClick={onAuthClick}
+          style={{
+            padding: '0.5rem',
+            borderRadius: 'var(--radius-full)',
+            background: 'var(--accent)',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0
+          }}
+        >
           <User size={24} />
         </button>
       </div>
@@ -91,7 +67,6 @@ const Navbar: React.FC<Props> = ({ searchTerm, setSearchTerm }) => {
       <style>{`
         @media (max-width: 600px) {
           .hide-mobile { display: none; }
-          .search-container { max-width: 130px; }
         }
       `}</style>
     </nav>

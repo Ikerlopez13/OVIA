@@ -165,7 +165,7 @@ button {
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  maxWidth: 1200px;
+  max-width: 1200px;
   color: white;
 }
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Star, ArrowLeft, ExternalLink, User } from 'lucide-react';
-import { Place } from '../data/mockData';
+import { Place, Review } from '../data/mockData';
 import { motion } from 'framer-motion';
 
 interface Props {
@@ -9,6 +9,45 @@ interface Props {
 }
 
 const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
+  const [localReviews, setLocalReviews] = useState<Review[]>([]);
+  const [newReviewUser, setNewReviewUser] = useState('');
+  const [newReviewRating, setNewReviewRating] = useState(5);
+  const [newReviewComment, setNewReviewComment] = useState('');
+
+  useEffect(() => {
+    const stored = localStorage.getItem(`reviews_${place.id}`);
+    if (stored) {
+      try {
+        setLocalReviews(JSON.parse(stored));
+      } catch (e) {
+        setLocalReviews(place.reviews);
+      }
+    } else {
+      setLocalReviews(place.reviews);
+    }
+  }, [place.id, place.reviews]);
+
+  const handleAddReview = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newReviewComment.trim() || !newReviewUser.trim()) return;
+
+    const newReview: Review = {
+      id: `local_${Date.now()}`,
+      user: newReviewUser,
+      rating: newReviewRating,
+      comment: newReviewComment,
+      date: new Date().toISOString().split('T')[0]
+    };
+
+    const updatedReviews = [newReview, ...localReviews];
+    setLocalReviews(updatedReviews);
+    localStorage.setItem(`reviews_${place.id}`, JSON.stringify(updatedReviews));
+    
+    setNewReviewComment('');
+    setNewReviewUser('');
+    setNewReviewRating(5);
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, x: 20 }}
@@ -102,8 +141,83 @@ const PlaceDetail: React.FC<Props> = ({ place, onBack }) => {
 
             <section>
               <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Reseñas de la comunidad</h2>
+
+              {/* Formulario de reseñas local */}
+              <form onSubmit={handleAddReview} style={{
+                background: 'var(--bg-secondary)',
+                padding: '1.5rem',
+                borderRadius: 'var(--radius-md)',
+                marginBottom: '2rem',
+                border: '1px solid var(--glass-border)'
+              }}>
+                <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Deja tu reseña</h3>
+                <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+                  <input 
+                    type="text" 
+                    placeholder="Tu nombre" 
+                    value={newReviewUser}
+                    onChange={(e) => setNewReviewUser(e.target.value)}
+                    required
+                    style={{
+                      flex: 1,
+                      minWidth: '200px',
+                      padding: '0.8rem',
+                      borderRadius: 'var(--radius-sm)',
+                      border: '1px solid var(--glass-border)',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-primary)'
+                    }}
+                  />
+                  <select 
+                    value={newReviewRating}
+                    onChange={(e) => setNewReviewRating(Number(e.target.value))}
+                    style={{
+                      padding: '0.8rem',
+                      borderRadius: 'var(--radius-sm)',
+                      border: '1px solid var(--glass-border)',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-primary)'
+                    }}
+                  >
+                    <option value={5}>5 Estrellas</option>
+                    <option value={4}>4 Estrellas</option>
+                    <option value={3}>3 Estrellas</option>
+                    <option value={2}>2 Estrellas</option>
+                    <option value={1}>1 Estrella</option>
+                  </select>
+                </div>
+                <textarea 
+                  placeholder="¿Qué te pareció este lugar?" 
+                  value={newReviewComment}
+                  onChange={(e) => setNewReviewComment(e.target.value)}
+                  required
+                  rows={3}
+                  style={{
+                    width: '100%',
+                    padding: '0.8rem',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1px solid var(--glass-border)',
+                    background: 'var(--bg-primary)',
+                    color: 'var(--text-primary)',
+                    marginBottom: '1rem',
+                    resize: 'vertical'
+                  }}
+                />
+                <button type="submit" style={{
+                  background: 'var(--text-primary)',
+                  color: 'var(--bg-primary)',
+                  padding: '0.8rem 2rem',
+                  borderRadius: 'var(--radius-full)',
+                  fontWeight: 600,
+                  border: 'none',
+                  cursor: 'pointer'
+                }}>
+                  Publicar reseña
+                </button>
+              </form>
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                {place.reviews.map(review => (
+                {localReviews.map(review => (
                   <div key={review.id} style={{ 
                     padding: '1.5rem', 
                     borderRadius: 'var(--radius-md)', 

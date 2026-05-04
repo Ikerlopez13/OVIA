@@ -12,6 +12,7 @@ function App() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const discoveryRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLElement>(null);
 
@@ -25,8 +26,12 @@ function App() {
     discoveryRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleAbout = () => {
-    aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const handleAbout = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    setShowAbout(true);
+    setTimeout(() => {
+      aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const filteredPlaces = mockPlaces.filter(p => {
@@ -156,8 +161,9 @@ function App() {
             </section>
 
             {/* About Us Section */}
-            <section id="about" ref={aboutRef} style={{
-              padding: '6rem 1.5rem',
+            {showAbout && (
+              <section id="about" ref={aboutRef} style={{
+                padding: '6rem 1.5rem',
               background: 'var(--bg-primary)',
               color: 'var(--text-primary)',
               maxWidth: '800px',
@@ -189,6 +195,7 @@ function App() {
                 </p>
               </motion.div>
             </section>
+            )}
           </main>
 
           <footer style={{ 
@@ -205,7 +212,7 @@ function App() {
               gap: '2rem',
               flexWrap: 'wrap'
             }}>
-              <a href="#about">Sobre nosotros</a>
+              <a href="#about" onClick={handleAbout}>Sobre nosotros</a>
               <a href="#">Guía de uso</a>
               <a href="#">Sostenibilidad</a>
               <a href="#">Contacto</a>
